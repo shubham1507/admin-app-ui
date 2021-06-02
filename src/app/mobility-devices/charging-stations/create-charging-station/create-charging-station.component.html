@@ -1,0 +1,89 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left" *ngIf="!updateOperation()">Create Charging Station</h4>
+    <h4 class="modal-title pull-left" *ngIf="updateOperation()">Edit Charging Station</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="fade-in">
+        <c-row>
+            <c-col md="12">
+                <c-card>
+                    <c-card-body>
+                        <c-row>
+                            <c-col md="12">
+                                <form [formGroup]="chargingStationForm" novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+                                    <c-form-group>
+                                        <label class="col-form-label" for="station_label">Station Label</label>
+                                        <input cInput id="station_label" formControlName="station_label"
+                                            placeholder="Station Label" required [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.station_label.touched) && f.station_label.invalid, 'is-valid':  f.station_label.valid  }" />
+                                        <div *ngIf="submitted && f['station_label'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['station_label'].errors.required">Station Label is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    
+                                    <c-form-group>
+                                        <label class="col-form-label" for="current_status">Current Status</label>
+                                        <select class="form-control" formControlName="current_status"
+                                            id="current_status"
+                                            [ngClass]="{ 'is-invalid':  (submitted || f.current_status.touched) && f.current_status.invalid, 'is-valid': f.current_status.touched && f.current_status.valid }">
+                                            <option *ngFor="let status of currentStatus; let i = index"
+                                                [value]="status">
+                                                {{status}}
+                                            </option>
+                                        </select>
+                                        <div *ngIf="submitted && f['current_status'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['current_status'].errors.required">Current Status is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="6">Locked To A Service Provider</label>
+                                        <c-col md="6" col="form-label">
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="locked_to_a_service_provider" cInput type="radio" name="locked_to_a_service_provider" id="radio1" value="true" checked>
+                                                <label cLabel variant="radio" for="radio1">Yes</label>
+                                            </c-form-check>
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="locked_to_a_service_provider" cInput type="radio" name="locked_to_a_service_provider" id="radio2" value="false">
+                                                <label cLabel variant="radio" for="radio2">No</label>
+                                            </c-form-check>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="service_provider_id">Service Provider ID</label>
+                                        <input cInput id="service_provider_id" formControlName="service_provider_id"
+                                            placeholder="Service Provider ID" required [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.service_provider_id.touched) && f.service_provider_id.invalid, 'is-valid':  f.service_provider_id.valid  }" />
+                                        <div *ngIf="submitted && f['service_provider_id'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['service_provider_id'].errors.required">Service Provider ID is required
+                                            </div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="location">Location</label>
+                                        <input cInput id="location" formControlName="location"
+                                            placeholder="Location" required [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.location.touched) && f.location.invalid, 'is-valid':  f.location.valid  }" />
+                                        <div *ngIf="submitted && f['location'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['location'].errors.required">Service Provider ID is required
+                                            </div>
+                                        </div>
+                                    </c-form-group>
+
+                                    <c-form-group>
+                                        <button cButton color="success" class="mfe-1" type="submit"
+                                            [disabled]="chargingStationForm.pristine || chargingStationForm.invalid" [tabindex]="'0'">Submit</button>
+                                        <button cButton color="danger" type="reset" (click)="onReset()" [tabindex]="'0'">Reset</button>
+                                    </c-form-group>
+                                </form>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </div>
+
+</div>

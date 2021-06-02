@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left" *ngIf="!updateOperation()">Create Product</h4>
+    <h4 class="modal-title pull-left" *ngIf="updateOperation()">Edit Product</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="fade-in">
+        <c-row>
+            <c-col md="12">
+                <c-card>
+                    <c-card-body>
+                        <c-row>
+                            <c-col md="12">
+                                <form [formGroup]="botForm" novalidate (ngSubmit)="onSubmit()"
+                                    class="needs-validation form-horizontal">
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="type_of_product">Type Of Product</label>
+                                        <c-col md="8">
+                                            <select class="form-control" formControlName="type_of_product"
+                                                id="type_of_product"
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.type_of_product.touched) && f.type_of_product.invalid, 'is-valid': f.type_of_product.touched && f.type_of_product.valid }">
+                                                <option
+                                                    *ngFor="let status of ['Beverage','Food', 'Other']; let i = index"
+                                                    [value]="status">
+                                                    {{status}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f['type_of_product'].invalid" class="invalid-feedback">
+                                                <div *ngIf="f['type_of_product'].errors.required">Product Type is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="product_name">Product Name</label>
+                                        <c-col md="8">
+                                            <input cInput id="product_name" formControlName="product_name"
+                                                placeholder="Enter Product name" required
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.product_name.touched) && f.product_name.invalid, 'is-valid': f.product_name.touched && f.product_name.valid }" />
+                                            <div *ngIf="submitted && f['product_name'].invalid" class="invalid-feedback">
+                                                <div *ngIf="f['product_name'].errors.required">Product Name is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+
+                                    <!-- <input type="file" (change)="fileEvent($event)" /> -->
+                                    
+                                    <c-form-group>
+                                        <button cButton color="success" class="mfe-1" type="submit"
+                                            [disabled]="botForm.pristine || botForm.invalid"
+                                            [tabindex]="'0'">Submit</button>
+                                        <!-- <button cButton color="success" class="mfe-1" [disabled]="botForm.valid"
+                                            (click)="onValidate()" [tabindex]="'0'">Validate</button> -->
+                                        <button cButton color="danger" type="reset" (click)="onReset()"
+                                            [tabindex]="'0'">Reset</button>
+                                    </c-form-group>
+                                </form>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </div>
+
+</div>

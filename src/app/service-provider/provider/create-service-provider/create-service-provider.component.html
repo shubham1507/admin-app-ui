@@ -1,0 +1,185 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left" *ngIf="!updateOperation()">Create Service Provider</h4>
+    <h4 class="modal-title pull-left" *ngIf="updateOperation()">Edit Service Provider</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="fade-in">
+    <c-row>
+      <c-col md="12">
+        <c-card>
+          <c-card-body>
+            <c-row>
+              <c-col md="12">
+                <form [formGroup]="botForm" novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+                  <c-form-group>
+                    <label class="col-form-label" for="first_name">First Name</label>
+                    <input pattern="[a-zA-Z ]*" cInput id="first_name" formControlName="first_name" placeholder="First Name" required
+                      [autofocus]="true"
+                      [ngClass]="{ 'is-invalid': (submitted || f.first_name.touched) && f.first_name.invalid, 'is-valid':  f.first_name.valid  }" />
+                    <div *ngIf="submitted && f['first_name'].invalid" class="invalid-feedback">
+                      <div *ngIf="f['first_name'].errors.required">First Name is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="middle_name">Middle Name</label>
+                    <input pattern="[a-zA-Z ]*" cInput id="middle_name" formControlName="middle_name" placeholder="Middle Name" required
+                      [autofocus]="true"
+                      [ngClass]="{ 'is-invalid': (submitted || f.middle_name.touched) && f.middle_name.invalid, 'is-valid':  f.middle_name.valid  }" />
+                    <div *ngIf="submitted && f['middle_name'].invalid" class="invalid-feedback">
+                      <div *ngIf="f['middle_name'].errors.required">Last Name is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="last_name">Last Name</label>
+                    <input pattern="[a-zA-Z ]*" cInput id="last_name" formControlName="last_name" placeholder="Last name" required
+                      [autofocus]="true"
+                      [ngClass]="{ 'is-invalid': (submitted || f.last_name.touched) && f.last_name.invalid, 'is-valid':  f.last_name.valid  }" />
+                    <div *ngIf="submitted && f['last_name'].invalid" class="invalid-feedback">
+                      <div *ngIf="f['last_name'].errors.required">Last Name is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="email">email</label>
+                    <input cInput id="email" type="email" formControlName="email" placeholder="email" required
+                      [autofocus]="true"
+                      [ngClass]="{ 'is-invalid': (submitted || f.email.touched) && f.email.invalid, 'is-valid':  f.email.valid  }" />
+                    <div *ngIf="submitted && f['email'].invalid" class="invalid-feedback">
+                      <div *ngIf="f['email'].errors.required">email is required</div>
+                      <div *ngIf="f['email'].errors.email">Vaild email address is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="phone_number">Phone number</label>
+                    <ngx-intl-tel-input [enableAutoCountrySelect]="true" [enablePlaceholder]="true"
+                      [searchCountryFlag]="true" [selectFirstCountry]="false" [maxLength]="15" [phoneValidation]="true"
+                      [separateDialCode]="true" name="phone_number" formControlName="phone_number"></ngx-intl-tel-input>
+                    <div *ngIf="submitted && f['phone_number'].errors" class="invalid-feedback">
+                      <div *ngIf="f['phone_number'].errors.required">phone_number is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="date_joined">Date Joined</label>
+                    <input formControlName="date_joined" type="date" class="form-control" placeholder="Select Date"
+                      [ngClass]="{ 'is-invalid': (submitted || f.date_joined.touched) && f.date_joined.errors, 'is-valid': f.date_joined.touched && !f.date_joined.errors }">
+                    <div *ngIf="submitted && f['date_joined'].errors" class="invalid-feedback">
+                      <div *ngIf="f['date_joined'].errors.required">date_joined is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="application_used">Application Used</label>
+                    <input formControlName="application_used" typeaheadOptionField="app_name"
+                      [typeahead]="applicationSuggestions$" [typeaheadAsync]="true" class="form-control"
+                      placeholder="Associated Application"
+                      [ngClass]="{ 'is-invalid':  (submitted || f.application_used.touched) && f.application_used.invalid, 'is-valid': f.application_used.touched && f.application_used.valid }">
+                    <div *ngIf="submitted && f['application_used'].invalid" class="invalid-feedback">
+                      <div *ngIf="f['application_used'].errors.required">Application used is required</div>
+                    </div>
+                  </c-form-group>
+                  <c-form-group>
+                    <label class="col-form-label" for="state">State</label>
+                    <input formControlName="state" [typeahead]="statesData" typeaheadOptionField="name"
+                      typeaheadGroupField="country" class="form-control" placeholder="Select state"
+                      (typeaheadOnSelect)="onSelectState($event)"
+                      [ngClass]="{ 'is-invalid': (submitted || f.state.touched) && f.state.errors, 'is-valid': f.state.touched && !f.state.errors }">
+                    <div *ngIf="submitted && f['state'].errors" class="invalid-feedback">
+                      <div *ngIf="f['state'].errors.required">state is required</div>
+                    </div>
+                  </c-form-group>
+
+                  <c-form-group>
+                    <label class="col-form-label" for="country">Country</label>
+                    <input readonly cInput id="country" formControlName="country" placeholder="country"
+                      autocomplete="country" required
+                      [ngClass]="{ 'is-invalid': (submitted || f.country.touched) && f.country.errors, 'is-valid': f.country.touched && !f.country.errors }" />
+                    <div *ngIf="submitted && f['country'].errors" class="invalid-feedback">
+                      <div *ngIf="f['country'].errors.required">country is required</div>
+                    </div>
+                  </c-form-group>
+
+                  <c-form-group>
+                    <label class="col-form-label" for="region">Region</label>
+                    <input cInput id="region" formControlName="region" placeholder="Region"
+                      autocomplete="region" required
+                      [ngClass]="{ 'is-invalid': (submitted || f.region.touched) && f.region.errors, 'is-valid': f.region.touched && !f.region.errors }" />
+                    <div *ngIf="submitted && f['region'].errors" class="invalid-feedback">
+                      <div *ngIf="f['region'].errors.required">Region is required</div>
+                    </div>
+                  </c-form-group>
+
+                  <div formGroupName="address">
+                    <c-form-group>
+                      <label class="col-form-label" for="landmark">Landmark</label>
+                      <input  cInput id="landmark" formControlName="landmark" placeholder="Enter Landmark"
+                        autocomplete="landmark" required
+                        [ngClass]="{ 'is-invalid': (submitted || botForm.get('address.landmark').touched) && botForm.get('address.landmark').errors, 'is-valid': botForm.get('address.landmark').touched && !botForm.get('address.landmark').errors }" />
+                      <div *ngIf="submitted && botForm.get('address.landmark').errors" class="invalid-feedback">
+                        <div *ngIf="botForm.get('address.landmark').errors.required">Landmark is required</div>
+                      </div>
+                    </c-form-group>
+                    <c-form-group>
+                      <label class="col-form-label" for="town">Town</label>
+                      <input  cInput id="town" formControlName="town" placeholder="Enter Town"
+                      autocomplete="town" required
+                      [ngClass]="{ 'is-invalid': (submitted || botForm.get('address.town').touched) && botForm.get('address.town').errors, 'is-valid': botForm.get('address.town').touched && !botForm.get('address.town').errors }" />
+                      <div *ngIf="submitted && botForm.get('address.town').errors" class="invalid-feedback">
+                      <div *ngIf="botForm.get('address.town').errors.required">Town is required</div>
+                      </div>
+                  </c-form-group>
+                  <c-form-group>
+                      <label class="col-form-label" for="city">City</label>
+                      <input  cInput id="city" formControlName="city" placeholder="Enter City"
+                      autocomplete="city" required
+                      [ngClass]="{ 'is-invalid': (submitted || botForm.get('address.city').touched) && botForm.get('address.city').errors, 'is-valid': botForm.get('address.city').touched && !botForm.get('address.city').errors }" />
+                      <div *ngIf="submitted && botForm.get('address.city').errors" class="invalid-feedback">
+                      <div *ngIf="botForm.get('address.city').errors.required">city is required</div>
+                      </div>
+                  </c-form-group>
+                  <c-form-group>
+                      <label class="col-form-label" for="state">State</label>
+                      <input  cInput id="state" formControlName="state" placeholder="Enter State"
+                      autocomplete="state" required
+                      [ngClass]="{ 'is-invalid': (submitted || botForm.get('address.state').touched) && botForm.get('address.state').errors, 'is-valid': botForm.get('address.state').touched && !botForm.get('address.state').errors }" />
+                      <div *ngIf="submitted && botForm.get('address.state').errors" class="invalid-feedback">
+                      <div *ngIf="botForm.get('address.state').errors.required">State is required</div>
+                      </div>
+                  </c-form-group>
+                  <c-form-group>
+                      <label class="col-form-label" for="countryaddress">Country</label>
+                      <input  cInput id="country" formControlName="country" placeholder="country"
+                      autocomplete="country" required
+                      [ngClass]="{ 'is-invalid': (submitted || botForm.get('address.country').touched) && botForm.get('address.country').errors, 'is-valid': botForm.get('address.country').touched && !botForm.get('address.country').errors }" />
+                      <div *ngIf="submitted && botForm.get('address.country').errors" class="invalid-feedback">
+                      <div *ngIf="botForm.get('address.country').errors.required">country is required</div>
+                      </div>
+                  </c-form-group>
+                  <c-form-group>
+                      <label class="col-form-label" for="code">code</label>
+                      <input  cInput id="code" formControlName="code" placeholder="code"
+                      autocomplete="code" required
+                      [ngClass]="{ 'is-invalid': (submitted || botForm.get('address.code').touched) && botForm.get('address.code').errors, 'is-valid': botForm.get('address.code').touched && !botForm.get('address.code').errors }" />
+                      <div *ngIf="submitted && botForm.get('address.code').errors" class="invalid-feedback">
+                      <div *ngIf="botForm.get('address.code').errors.required">Code is required</div>
+                      </div>
+                  </c-form-group>
+                </div>
+
+                  <c-form-group>
+                    <button cButton color="success" class="mfe-1" type="submit"
+                      [disabled]="botForm.pristine || botForm.invalid" [tabindex]="'0'">Submit</button>
+                    <!-- <button cButton color="success" class="mfe-1" [disabled]="botForm.valid" (click)="onValidate()"
+                      [tabindex]="'0'">Validate</button> -->
+                    <button cButton color="danger" type="reset" (click)="onReset()" [tabindex]="'0'">Reset</button>
+                  </c-form-group>
+                </form>
+              </c-col>
+            </c-row>
+          </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
+  </div>
+
+</div>

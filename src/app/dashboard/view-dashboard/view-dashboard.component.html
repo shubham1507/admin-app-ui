@@ -1,0 +1,229 @@
+<div class="fade-in">
+    <c-row>
+        <c-col>
+            <c-card class="text-center bg-primary card text-white">
+                <c-card-header>Orders Fulfilled</c-card-header>
+                <c-card-body>
+                    <c-row>
+                        <c-col>Daily - {{dashboardData?.orders_fulfilled?.daily}}</c-col>
+                        <c-col>Weekly - {{dashboardData?.orders_fulfilled?.weekly}}</c-col>
+                        <c-col>Monthly - {{dashboardData?.orders_fulfilled?.monthly}}</c-col>
+                    </c-row>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col>
+            <c-card class="text-center bg-info card text-white">
+                <c-card-header>Customers Signed Up</c-card-header>
+                <c-card-body>
+                    <c-row>
+                        <c-col>Daily - {{dashboardData?.customers_signed_up?.daily}}</c-col>
+                        <c-col>Weekly - {{dashboardData?.customers_signed_up?.weekly}}</c-col>
+                        <c-col>Monthly - {{dashboardData?.customers_signed_up?.monthly}}</c-col>
+                    </c-row>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col>
+            <c-card class="text-center bg-warning card text-white">
+                <c-card-header>Remote Drivers Online</c-card-header>
+                <c-card-body>
+                    <c-row>
+                        <c-col>Daily - {{dashboardData?.remote_drivers_online?.daily}}</c-col>
+                        <c-col>Weekly - {{dashboardData?.remote_drivers_online?.weekly}}</c-col>
+                        <c-col>Monthly - {{dashboardData?.remote_drivers_online?.monthly}}</c-col>
+                    </c-row>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col>
+            <c-card class="text-center bg-danger card text-white">
+                <c-card-header>Service Providers that have performed an order</c-card-header>
+                <c-card-body>
+                    <c-row>
+                        <c-col>Daily - {{dashboardData?.service_providers_that_have_performed_an_order?.daily}}</c-col>
+                        <c-col>Weekly - {{dashboardData?.service_providers_that_have_performed_an_order?.weekly}}
+                        </c-col>
+                        <c-col>Monthly - {{dashboardData?.service_providers_that_have_performed_an_order?.monthly}}
+                        </c-col>
+                    </c-row>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    </c-row>
+
+    <c-card>
+        <c-card-body>
+            <c-row>
+                <c-col sm="5">
+                    <h4 class="card-title mb-0">Orders Performed</h4>
+                </c-col>
+                <c-col sm="7" class="d-none d-md-block">
+                    <c-button-toolbar class="float-right">
+                        <c-button-group class="mx-3">
+                            <button cButton color="secondary" (click)="setupChartData('orders_performed', 'daily')" variant="outline" [(ngModel)]="radioModel.orders_fulfiled" btnRadio="daily" id="option1">Day</button>
+                            <button cButton color="secondary" (click)="setupChartData('orders_performed', 'monthly')" variant="outline" [(ngModel)]="radioModel.orders_fulfiled" btnRadio="monthly" id="option2">Month</button>
+                        </c-button-group>
+                    </c-button-toolbar>
+                </c-col>
+            </c-row>
+            <div class="c-chart-wrapper" style="height:300px;margin-top:40px;" *ngIf="chartData?.orders_performed?.data"
+                [@.disabled]="true">
+                <canvas cNoZoneBaseChart class="chart" [datasets]="chartData?.orders_performed?.data"
+                    [labels]="chartData?.orders_performed?.labels" [options]="chart.options" [colors]="chart.colors"
+                    [chartType]="'line'">
+                </canvas>
+            </div>
+        </c-card-body>
+    </c-card>
+
+    <c-card>
+        <c-card-body>
+            <c-row>
+                <c-col sm="5">
+                    <h4 class="card-title mb-0">Customers Served</h4>
+                </c-col>
+                <c-col sm="7" class="d-none d-md-block">
+                    <c-button-toolbar class="float-right">
+                        <c-button-group class="mx-3">
+                            <button cButton color="secondary" (click)="setupChartData('customers_served', 'daily')" variant="outline" [(ngModel)]="radioModel.customers_served" btnRadio="daily" id="option1">Day</button>
+                            <button cButton color="secondary" (click)="setupChartData('customers_served', 'monthly')" variant="outline" [(ngModel)]="radioModel.customers_served" btnRadio="monthly" id="option2">Month</button>
+                        </c-button-group>
+                    </c-button-toolbar>
+                </c-col>
+            </c-row>
+            <div class="c-chart-wrapper" style="height:300px;margin-top:40px;" *ngIf="chartData?.customers_served?.data"
+                [@.disabled]="true">
+                <canvas cNoZoneBaseChart class="chart" [datasets]="chartData?.customers_served?.data"
+                    [labels]="chartData?.customers_served?.labels" [colors]="chart.colors" [options]="chart.options"
+                    [chartType]="'line'">
+                </canvas>
+            </div>
+        </c-card-body>
+    </c-card>
+    <c-card>
+        <c-card-body>
+            <c-row>
+                <c-col sm="5">
+                    <h4 class="card-title mb-0">Average Duration of orders</h4>
+                </c-col>
+                <c-col sm="7" class="d-none d-md-block">
+                    <c-button-toolbar class="float-right">
+                        <c-button-group class="mx-3">
+                            <button cButton color="secondary" (click)="setupChartData('average_duration_of_an_order', 'daily')" variant="outline" [(ngModel)]="radioModel.average_duration_of_an_order" btnRadio="daily" id="option1">Day</button>
+                            <button cButton color="secondary" (click)="setupChartData('average_duration_of_an_order', 'monthly')" variant="outline" [(ngModel)]="radioModel.average_duration_of_an_order" btnRadio="monthly" id="option2">Month</button>
+                        </c-button-group>
+                    </c-button-toolbar>
+                </c-col>
+            </c-row>
+            <div class="c-chart-wrapper" style="height:300px;margin-top:40px;"
+                *ngIf="chartData?.average_duration_of_an_order?.data" [@.disabled]="true">
+                <canvas cNoZoneBaseChart class="chart" [datasets]="chartData?.average_duration_of_an_order?.data"
+                    [labels]="chartData?.average_duration_of_an_order?.labels" [options]="chart.options"
+                    [chartType]="'bar'">
+                </canvas>
+            </div>
+        </c-card-body>
+    </c-card>
+    <c-row>
+        <c-col col="6">
+            <c-card *ngIf="chartData?.usage_of_each_appilcation?.data">
+                <c-card-header>Usage of Each application</c-card-header>
+                <c-card-body>
+                    <div class="chart-wrapper">
+                        <canvas cNoZoneBaseChart class="chart" [data]="chartData?.usage_of_each_appilcation.data"
+                            [labels]="chartData?.usage_of_each_appilcation?.labels" [options]="options"
+                            [chartType]="'doughnut'"></canvas>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </c-col>
+        <c-col col="6">
+            <c-card *ngIf="chartData?.number_of_bots_deployed_for_each_application?.data">
+                <c-card-header>Number of bots deployed for each application</c-card-header>
+                <c-card-body>
+                    <div class="chart-wrapper">
+                        <canvas cNoZoneBaseChart class="chart"
+                            [data]="chartData?.number_of_bots_deployed_for_each_application?.data"
+                            [labels]="chartData?.number_of_bots_deployed_for_each_application?.labels"
+                            [options]="options" [chartType]="'doughnut'"></canvas>
+                    </div>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    </c-row>
+
+    <c-row class="text-center">
+        <c-col sm="12" [md]="true" class="mb-sm-2 mb-0">
+            <c-card>
+                <div class="text-muted">Active Bots</div>
+                <strong>{{dashboardData?.active_bots_and_operators?.mobility_devices}}%</strong>
+                <c-progress size="xs" class="mt-2">
+                    <c-progress-bar color="success"
+                        [value]="dashboardData?.active_bots_and_operators?.mobility_devices">
+                    </c-progress-bar>
+                </c-progress>
+            </c-card>
+        </c-col>
+        <c-col sm="12" [md]="true" class="mb-sm-2 mb-0">
+            <c-card>
+                <div class="text-muted">Remote Operators</div>
+                <strong>{{dashboardData?.active_bots_and_operators?.remote_operators}}%</strong>
+                <c-progress size="xs" class="mt-2">
+                    <c-progress-bar color="info" [value]="dashboardData?.active_bots_and_operators?.remote_operators">
+                    </c-progress-bar>
+                </c-progress>
+            </c-card>
+        </c-col>
+    </c-row>
+
+    <c-row>
+        <c-col md="12">
+            <c-card>
+                <c-card-header>Current 10 Orders</c-card-header>
+                <c-card-body>
+                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Service Provider Name</th>
+                                <th>Order #</th>
+                                <th>Remote Operator Name</th>
+                                <th>Customer Name</th>
+                                <th>Order Status</th>
+                                <th>Duration of Order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of dashboardData?.current_orders">
+                                <td>{{data.service_provider}}</td>
+                                <td>{{data.order_id}}</td>
+                                <td>{{data.remote_operator}}</td>
+                                <td>{{data.customer}}</td>
+                                <td>{{data.order_status}}</td>
+                                <td>{{data.order_duration}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </c-card-body>
+            </c-card>
+        </c-col>
+    </c-row>
+
+    <c-card>
+        <c-card-body>
+            <c-row>
+                <c-col sm="5">
+                    <h4 class="card-title mb-0">Hours driven</h4>
+                </c-col>
+            </c-row>
+            <div class="c-chart-wrapper" style="height:300px;margin-top:40px;" *ngIf="chartData?.hours_driven?.data"
+                [@.disabled]="true">
+                <canvas cNoZoneBaseChart class="chart" [datasets]="chartData?.hours_driven?.data"
+                    [labels]="chartData?.hours_driven?.labels" [options]="chart.options" [colors]="chart.colors"
+                    [chartType]="'bar'">
+                </canvas>
+            </div>
+        </c-card-body>
+    </c-card>
+
+</div>

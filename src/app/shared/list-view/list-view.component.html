@@ -1,0 +1,61 @@
+<div class="fade-in">
+    <c-card>
+      <c-card-header>
+        {{apiEndPointName}}
+        <c-card-header-actions *ngIf="!report">
+          <button type="button" class="btn btn-primary" (click)="openModalForm()">Create {{apiEndPointName}}</button>
+        </c-card-header-actions>
+        <c-card-header-actions *ngIf="report">
+          <button type="button" class="btn btn-primary" (click)="exportToCSV()">Export to CSV</button>
+        </c-card-header-actions>
+      </c-card-header>
+      <c-card-body>
+        <c-row class="mb-3">
+          <c-col md="4" class="offset-md-8">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="cil-search"></i></span>
+              </div>
+              <input cInput [(ngModel)]="filterQuery" (ngModelChange)="searchByQuery($event)" placeholder="Search by {{apiEndPoint}} id" />
+            </div>
+          </c-col>
+        </c-row>
+        <table class="table table-striped table-hover table-responsive-lg" [mfData]="data | sharedDataFilter: filterQuery" #mf="mfDataTable" [mfRowsOnPage]="10">
+          <thead>
+            <tr>
+              <th *ngFor="let column of columnNames; let i = index">
+                <mfDefaultSorter by="{{columns[i]}}">{{column}}</mfDefaultSorter>
+              </th>              
+              <th style="width: 10%;" *ngIf="!report">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of mf.data; let i = index">
+              <td *ngFor="let column of columns">{{ item[column] }}</td>
+              <td *ngIf="!report">
+                <button type="button" class="btn-outline btn btn-secondary btn-sm" (click)="openModalForm(item)">Edit</button>&nbsp;
+                <button type="button" class="btn-outline btn btn-danger btn-sm" (click)="confirmDelete(template, item, i)">Delete</button>
+                <button *ngIf="apiEndPoint == 'user'" type="button" class="btn-outline btn btn-success btn-sm" (click)="changePassword(item)">Change Password</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">              
+                <pager [totalItems]="pagination.totalRecords"
+                  (pageChanged)="pageChanged($event)" pageBtnClass="btn btn-link" [itemsPerPage]="pagination.perPage"
+                  class="mfe-auto"></pager>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </c-card-body>
+    </c-card>
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Do you want to confirm?</p>
+        <button type="button" class="btn btn-danger" (click)="confirm()" >Yes</button>
+        <button type="button" class="btn btn-default" (click)="decline()" >No</button>
+      </div>
+    </ng-template>
+  </div>

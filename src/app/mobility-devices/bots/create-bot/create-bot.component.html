@@ -1,0 +1,135 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left" *ngIf="!updateOperation()">Create Bot</h4>
+    <h4 class="modal-title pull-left" *ngIf="updateOperation()">Edit Bot</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="fade-in">
+        <c-row>
+            <c-col md="12">
+                <c-card>
+                    <c-card-body>
+                        <c-row>
+                            <c-col md="12">
+                                <form [formGroup]="botForm" novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+                                    <c-form-group>
+                                        <label class="col-form-label" for="bot_id">Bot ID</label>
+                                        <input cInput id="bot_id" formControlName="bot_id" placeholder="Bot ID" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.bot_id.touched) && f.bot_id.invalid, 'is-valid':  f.bot_id.valid  }" />
+                                        <div *ngIf="submitted && f['bot_id'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['bot_id'].errors.required">Bot ID is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="associated_application">Associated Application</label>
+                                        <input formControlName="associated_application"
+                                                typeaheadOptionField="app_name"
+                                                [typeahead]="applicationSuggestions$"
+                                                [typeaheadAsync]="true"
+                                                class="form-control"
+                                                placeholder="Associated Application"
+                                                (typeaheadOnSelect)="onSelectAssocitedApp($event)"
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.associated_application.touched) && f.associated_application.invalid, 'is-valid': f.associated_application.touched && f.associated_application.valid }">
+                                        
+                                        <div *ngIf="submitted && f['associated_application'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['associated_application'].errors.required">Associated Application is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="associated_service_provider">Associated Service Provider</label>
+                                        <input formControlName="associated_service_provider"
+                                                typeaheadOptionField="last_name"
+                                                [typeahead]="serviceProviderSuggestions$"
+                                                [typeaheadAsync]="true"
+                                                class="form-control"
+                                                placeholder="Associated Service Provider"
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.associated_service_provider.touched) && f.associated_service_provider.invalid, 'is-valid': f.associated_service_provider.touched && f.associated_service_provider.valid }">
+                                        <!-- <input cInput id="associated_service_provider" formControlName="associated_service_provider" placeholder="associated_service_provider"
+                                            autocomplete="associated_service_provider" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.associated_service_provider.touched) && f.associated_service_provider.errors, 'is-valid': f.associated_service_provider.touched && !f.associated_service_provider.errors }" /> -->
+                                        <div *ngIf="submitted && f['associated_service_provider'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['associated_service_provider'].errors.required">associated_service_provider is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="deployed_state">Deployed State</label>
+                                        <input formControlName="deployed_state"
+                                                [typeahead]="statesData"
+                                                typeaheadOptionField="name"
+                                                typeaheadGroupField="country"
+                                                class="form-control"
+                                                placeholder="Select state"
+                                                (typeaheadOnSelect)="onSelectState($event)"
+                                                [ngClass]="{ 'is-invalid': (submitted || f.deployed_state.touched) && f.deployed_state.errors, 'is-valid': f.deployed_state.touched && !f.deployed_state.errors }">
+                                        <div *ngIf="submitted && f['deployed_state'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['deployed_state'].errors.required">deployed_state is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="deployed_country">Deployed Country</label>
+                                        <input readonly cInput id="deployed_country" formControlName="deployed_country" placeholder="deployed_country"
+                                            autocomplete="deployed_country" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.deployed_country.touched) && f.deployed_country.errors, 'is-valid': f.deployed_country.touched && !f.deployed_country.errors }" />
+                                        <div *ngIf="submitted && f['deployed_country'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['deployed_country'].errors.required">deployed_country is required</div>
+                                        </div>
+                                    </c-form-group>                                    
+                                    <c-form-group>
+                                        <label class="col-form-label" for="deployed_date">Deployed Date</label>                                        
+                                        <input cInput id="deployed_date" type="date" formControlName="deployed_date" placeholder="deployed_date" autocomplete="deployed_date" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.deployed_date.touched) && f.deployed_date.errors, 'is-valid': f.deployed_date.touched && !f.deployed_date.errors }" />
+                                            <div *ngIf="submitted && f['deployed_date'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['deployed_date'].errors.required">deployed_date is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="deployed_region">Deployed Region</label>
+                                        <input cInput id="deployed_region" formControlName="deployed_region" placeholder="Deployed Region"
+                                            autocomplete="deployed_region" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.deployed_region.touched) && f.deployed_region.errors, 'is-valid': f.deployed_region.touched && !f.deployed_region.errors }" />
+                                        <div *ngIf="submitted && f['deployed_region'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['deployed_region'].errors.required">Deployed Region is required</div>
+                                        </div>
+                                    </c-form-group> 
+                                    
+                                    <c-form-group>
+                                        <label class="col-form-label" for="ip_address">IP Address</label>
+                                        <input cInput id="ip_address" formControlName="ip_address" placeholder="IP Address" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.ip_address.touched) && f.ip_address.errors, 'is-valid': f.ip_address.touched && !f.ip_address.errors }" />
+                                        <div *ngIf="submitted && f['ip_address'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['ip_address'].errors.required">ip_address is required</div>
+                                            <div *ngIf="f['ip_address'].errors.pattern">Enter valid ip address</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="steering_enoder_calibration">Steering Encoder Calibration</label>
+                                        <input step="1" cInput type="range" list="rangelist" max="5" min="-5" id="steering_enoder_calibration" formControlName="steering_enoder_calibration" placeholder="steering_enoder_calibration" autocomplete="steering_enoder_calibration" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.steering_enoder_calibration.touched) && f.steering_enoder_calibration.errors, 'is-valid': f.steering_enoder_calibration.touched && !f.steering_enoder_calibration.errors }" />
+                                            <datalist id="my-datalist" style="--list-length: 11;">
+                                                <option *ngFor="let i of steeringEncoderRange">{{i}}</option>
+                                            </datalist>
+                                        <div *ngIf="submitted && f['steering_enoder_calibration'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['steering_enoder_calibration'].errors.required">steering_enoder_calibration is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    
+                                   
+                                    <c-form-group>
+                                        <button [disabled]="botForm.pristine || botForm.invalid" cButton color="success" class="mfe-1" type="submit"                                            
+                                            [tabindex]="'0'">Submit</button>
+                                        <button cButton color="danger" type="reset" (click)="onReset()"
+                                            [tabindex]="'0'">Reset</button>
+                                    </c-form-group>
+                                </form>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </div>
+
+</div>

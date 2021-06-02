@@ -1,0 +1,110 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Create User</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="fade-in">
+        <c-row>
+            <c-col md="12">
+                <c-card>
+                    <c-card-body>
+                        <c-row>
+                            <c-col md="12">
+                                <form [formGroup]="userForm" novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+                                    <c-form-group>
+                                        <label class="col-form-label" for="first_name">First Name</label>
+                                        <input cInput id="first_name" formControlName="first_name" placeholder="First Name" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.first_name.touched) && f.first_name.invalid, 'is-valid':  f.first_name.valid  }" />
+                                        <div *ngIf="submitted && f['first_name'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['first_name'].errors.required">First Name is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="last_name">Last Name</label>
+                                        <input cInput id="last_name" formControlName="last_name" placeholder="Last name" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.last_name.touched) && f.last_name.invalid, 'is-valid':  f.last_name.valid  }" />
+                                        <div *ngIf="submitted && f['last_name'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['last_name'].errors.required">Last Name is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="email">email</label>
+                                        <input cInput id="email" type="email" formControlName="email" placeholder="email" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.email.touched) && f.email.invalid, 'is-valid':  f.email.valid  }" />
+                                        <div *ngIf="submitted && f['email'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['email'].errors.required">email is required</div>
+                                            <div *ngIf="f['email'].errors.email">Vaild email address is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="email">email</label>
+                                        <input cInput id="email" type="email" formControlName="email" placeholder="email" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.email.touched) && f.email.invalid, 'is-valid':  f.email.valid  }" />
+                                        <div *ngIf="submitted && f['email'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['email'].errors.required">email is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group *ngIf="!isUpdateOperation()">
+                                        <label class="col-form-label" for="password">Password</label>
+                                        <input cInput id="password" type="password" formControlName="password" placeholder="password" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.password.touched) && f.password.invalid, 'is-valid':  f.password.valid  }" />
+                                        <div *ngIf="submitted && f['password'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['password'].errors.required">password is required</div>
+                                        </div>
+                                    </c-form-group>
+
+                                    <c-form-group>
+                                        <label class="col-form-label" for="mobile_number">Phone number</label>
+                                        <ngx-intl-tel-input                                            
+                                            [enableAutoCountrySelect]="true"
+                                            [enablePlaceholder]="true"
+                                            [searchCountryFlag]="true"
+                                            [selectFirstCountry]="false"
+                                            [maxLength]="15"
+                                            [phoneValidation]="true"                                            
+                                            [separateDialCode]="true"
+                                            name="mobile_number"
+                                            formControlName="mobile_number"
+                                            [numberFormat]="'E164'"
+                                        ></ngx-intl-tel-input>
+                                        <div *ngIf="submitted && f['mobile_number'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['mobile_number'].errors.required">mobile_number is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    
+                                    <c-form-group>
+                                        <label class="col-form-label" for="role">Role</label>
+                                        <input cInput id="role" formControlName="role" placeholder="role"
+                                            autocomplete="role" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.role.touched) && f.role.errors, 'is-valid': f.role.touched && !f.role.errors }" />
+                                        <div *ngIf="submitted && f['role'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['role'].errors.required">Role is required</div>
+                                        </div>
+                                    </c-form-group>
+
+                                    <c-form-group>
+                                        <button cButton color="success" class="mfe-1" type="submit"
+                                            [disabled]="userForm.pristine || userForm.invalid"
+                                            [tabindex]="'0'">Submit</button>
+                                        <!-- <button cButton color="success" class="mfe-1" [disabled]="userForm.valid"
+                                            (click)="onValidate()" [tabindex]="'0'">Validate</button> -->
+                                        <button cButton color="danger" type="reset" (click)="onReset()"
+                                            [tabindex]="'0'">Reset</button>
+                                    </c-form-group>
+                                </form>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </div>
+
+</div>

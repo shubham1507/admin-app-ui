@@ -1,0 +1,202 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left" *ngIf="!updateOperation()">Create App</h4>
+    <h4 class="modal-title pull-left" *ngIf="updateOperation()">Edit App</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="fade-in">
+        <c-row>
+            <c-col md="12">
+                <c-card>
+                    <c-card-body>
+                        <c-row>
+                            <c-col md="12">
+                                <form [formGroup]="botForm" novalidate (ngSubmit)="onSubmit()"
+                                    class="needs-validation form-horizontal">
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="type_of_application">Type Of Application</label>
+                                        <c-col md="8">
+                                            <select class="form-control" formControlName="type_of_application"
+                                                id="type_of_application"
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.type_of_application.touched) && f.type_of_application.invalid, 'is-valid': f.type_of_application.touched && f.type_of_application.valid }">
+                                                <option
+                                                    *ngFor="let status of ['Beverage','Dispenser', 'security']; let i = index"
+                                                    [value]="status">
+                                                    {{status}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f['type_of_application'].invalid"
+                                                class="invalid-feedback">
+                                                <div *ngIf="f['type_of_application'].errors.required">Application Type
+                                                    is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="app_name">App Name</label>
+                                        <c-col md="8">
+                                            <input pattern="^$|^[A-Za-z0-9]+" cInput id="app_name" formControlName="app_name"
+                                                placeholder="Enter App name" required
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.app_name.touched) && f.app_name.invalid, 'is-valid': f.app_name.touched && f.app_name.valid }" />
+                                            <div *ngIf="submitted && f['app_name'].invalid" class="invalid-feedback">
+                                                <div *ngIf="f['app_name'].errors.required">App Name is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4">Associated Inventory</label>
+                                        <c-col md="8" col="form-label">
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="associated_inventory" cInput type="radio"
+                                                    name="associated_inventory" id="radio1" value="true" checked>
+                                                <label cLabel variant="radio" for="radio1">Yes</label>
+                                            </c-form-check>
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="associated_inventory" cInput type="radio"
+                                                    name="associated_inventory" id="radio2" value="false">
+                                                <label cLabel variant="radio" for="radio2">No</label>
+                                            </c-form-check>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="type_of_inventory">Type Of
+                                            Inventory</label>
+                                        <c-col md="8">
+                                            <select class="form-control" formControlName="type_of_inventory"
+                                                id="type_of_inventory"
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.type_of_inventory.touched) && f.type_of_inventory.invalid, 'is-valid': f.type_of_inventory.touched && f.type_of_inventory.valid }">
+                                                <option
+                                                    *ngFor="let status of ['Food','Beverage','Other']; let i = index"
+                                                    [value]="status">
+                                                    {{status}}
+                                                </option>
+                                            </select>
+                                            <div *ngIf="submitted && f['type_of_inventory'].invalid"
+                                                class="invalid-feedback">
+                                                <div *ngIf="f['type_of_inventory'].errors.required">Inventory Type is
+                                                    required</div>
+                                            </div>
+                                        </c-col>
+
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4">Wheel Mode</label>
+                                        <c-col md="8" col="form-label">
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="one_wheel_two_wheel_mode" cInput type="radio"
+                                                    name="one_wheel_two_wheel_mode" id="wheel1" value="one_wheel"
+                                                    checked>
+                                                <label cLabel variant="radio" for="wheel1">One wheel</label>
+                                            </c-form-check>
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="one_wheel_two_wheel_mode" cInput type="radio"
+                                                    name="one_wheel_two_wheel_mode" id="wheel2" value="two_wheel">
+                                                <label cLabel variant="radio" for="wheel2">Two Wheel</label>
+                                            </c-form-check>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4">Remote/ Auto Mode</label>
+                                        <c-col md="8" col="form-label">
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="remote_auto_mode" cInput type="radio"
+                                                    name="remote_auto_mode" id="remote1" value="remote" checked>
+                                                <label cLabel variant="radio" for="remote1">Remote</label>
+                                            </c-form-check>
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="remote_auto_mode" cInput type="radio"
+                                                    name="remote_auto_mode" id="remote2" value="auto">
+                                                <label cLabel variant="radio" for="remote2">Auto</label>
+                                            </c-form-check>
+                                        </c-col>
+                                    </c-form-group>
+
+                                    <c-form-group cRow *ngFor="let field of rangeFields | keyvalue : unsorted">
+                                        <label cLabel="col" cCol md="4" for="{{field.key}}">{{field.value}}</label>
+                                        <c-col md="8">
+                                            <input cInput type="number" min="0" max="60" step="1"
+                                                id="{{field.key}}"
+                                                formControlName="{{field.key}}"
+                                                placeholder="Enter {{field.value}}" required
+                                                [ngClass]="{ 'is-invalid':  (submitted || f[field.key].touched) && f[field.key].invalid, 'is-valid': f[field.key].touched && f[field.key].valid }" />
+                                            <div *ngIf=" f[field.key].invalid"
+                                                class="invalid-feedback">
+                                                <div *ngIf="f[field.key].errors.required">{{field.value}} is required</div>
+                                                <p *ngIf="f[field.key].errors.max">Must be less than {{f[field.key].errors.max.max}}</p>
+                                                <p *ngIf="f[field.key].errors.min">Must be greater than {{f[field.key].errors.min.min}}</p>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4">Bot Microphone</label>
+                                        <c-col md="8" col="form-label">
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="bot_microphone_enable_disable" cInput type="radio"
+                                                    name="bot_microphone_enable_disable" id="botmic1" value="true" checked>
+                                                <label cLabel variant="radio" for="botmic1">Enable</label>
+                                            </c-form-check>
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="bot_microphone_enable_disable" cInput type="radio"
+                                                    name="bot_microphone_enable_disable" id="botmic2" value="false">
+                                                <label cLabel variant="radio" for="botmic2">Disable</label>
+                                            </c-form-check>
+                                        </c-col>
+                                    </c-form-group>
+
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="csi_resolution">CSI Resolution</label>
+                                        <c-col md="8">
+                                            <input cInput id="csi_resolution" formControlName="csi_resolution"
+                                                placeholder="Enter CSI Resolution" required
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.csi_resolution.touched) && f.csi_resolution.invalid, 'is-valid': f.csi_resolution.touched && f.csi_resolution.valid }" />
+                                            <div *ngIf="submitted && f['csi_resolution'].invalid" class="invalid-feedback">
+                                                <div *ngIf="f['csi_resolution'].errors.required">CSI Resolution is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="output_resolution">output Resolution</label>
+                                        <c-col md="8">
+                                            <input cInput id="output_resolution" formControlName="output_resolution"
+                                                placeholder="Enter output Resolution" required
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.output_resolution.touched) && f.output_resolution.invalid, 'is-valid': f.output_resolution.touched && f.output_resolution.valid }" />
+                                            <div *ngIf="submitted && f['output_resolution'].invalid" class="invalid-feedback">
+                                                <div *ngIf="f['output_resolution'].errors.required">output Resolution is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4" for="usb_resolution">USB Resolution</label>
+                                        <c-col md="8">
+                                            <input cInput id="usb_resolution" formControlName="usb_resolution"
+                                                placeholder="Enter USB Resolution" required
+                                                [ngClass]="{ 'is-invalid':  (submitted || f.usb_resolution.touched) && f.usb_resolution.invalid, 'is-valid': f.usb_resolution.touched && f.usb_resolution.valid }" />
+                                            <div *ngIf="submitted && f['usb_resolution'].invalid" class="invalid-feedback">
+                                                <div *ngIf="f['usb_resolution'].errors.required">USB Resolution is required</div>
+                                            </div>
+                                        </c-col>
+                                    </c-form-group>
+
+                                    <c-form-group>
+                                        <button cButton color="success" class="mfe-1" type="submit"
+                                            [disabled]="botForm.invalid"
+                                            [tabindex]="'0'">Submit</button>
+                                        <!-- <button cButton color="success" class="mfe-1" [disabled]="botForm.valid"
+                                            (click)="onValidate()" [tabindex]="'0'">Validate</button> -->
+                                        <button cButton color="danger" type="reset" (click)="onReset()"
+                                            [tabindex]="'0'">Reset</button>
+                                    </c-form-group>
+                                </form>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </div>
+
+</div>

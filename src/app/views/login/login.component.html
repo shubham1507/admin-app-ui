@@ -1,0 +1,51 @@
+<c-container>
+  <c-row class="justify-content-center">
+    <c-col md="6">
+      <c-card-group>
+        <c-card class="p-4">
+          <c-card-body>
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+              <h1>Login</h1>
+              <p class="text-muted">Sign In to your account</p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <c-icon name="cil-user"></c-icon>
+                  </span>
+                </div>
+                <input cInput
+                  placeholder="email"
+                  autocomplete="email"
+                  required ngModel
+                  name="email"
+                />
+              </div>
+              <div class="input-group mb-4">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <c-icon name="cil-lock-locked"></c-icon>
+                  </span>
+                </div>
+                <input cInput
+                  type="password"
+                  placeholder="Password"
+                  autocomplete="current-password"
+                  required ngModel
+                  name="password"
+                />
+              </div>
+              <c-row>
+                <c-col col="6">
+                  <button cButton color="success" class="px-4" type="submit">Login</button>
+                </c-col>
+                <c-col col="6" class="text-right">
+                  <button cButton color="link" class="px-0">Forgot password?</button>
+                </c-col>
+              </c-row>
+            </form>
+          </c-card-body>
+        </c-card>
+      </c-card-group>
+    </c-col>
+  </c-row>
+</c-container>

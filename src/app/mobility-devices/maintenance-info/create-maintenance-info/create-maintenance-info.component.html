@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left" *ngIf="!updateOperation()">Create Maintenance Info</h4>
+    <h4 class="modal-title pull-left" *ngIf="updateOperation()">Edit Maintenance Info</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="fade-in">
+        <c-row>
+            <c-col md="12">
+                <c-card>
+                    <c-card-body>
+                        <c-row>
+                            <c-col md="12">
+                                <form [formGroup]="botForm" novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+                                    <c-form-group>
+                                        <label class="col-form-label" for="bot_id">Bot ID</label>
+                                        <input cInput id="bot_id" formControlName="bot_id" placeholder="Bot ID" required
+                                            [autofocus]="true"
+                                            [ngClass]="{ 'is-invalid': (submitted || f.bot_id.touched) && f.bot_id.invalid, 'is-valid':  f.bot_id.valid  }" />
+                                        <div *ngIf="submitted && f['bot_id'].invalid" class="invalid-feedback">
+                                            <div *ngIf="f['bot_id'].errors.required">Bot ID is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="date_added">Date Added</label>
+                                        <input formControlName="date_added"
+                                                type="date"
+                                                class="form-control"
+                                                placeholder="Select Date"
+                                                [ngClass]="{ 'is-invalid': (submitted || f.date_added.touched) && f.date_added.errors, 'is-valid': f.date_added.touched && !f.date_added.errors }">
+                                        <div *ngIf="submitted && f['date_added'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['date_added'].errors.required">date_added is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="performed_by">Performed by</label>
+                                        <input cInput id="performed_by" formControlName="performed_by" placeholder="performed_by"
+                                            autocomplete="performed_by" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.performed_by.touched) && f.performed_by.errors, 'is-valid': f.performed_by.touched && !f.performed_by.errors }" />
+                                        <div *ngIf="submitted && f['performed_by'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['performed_by'].errors.required">performed_by is required</div>
+                                        </div>
+                                    </c-form-group>                                    
+                                    <c-form-group>
+                                        <label class="col-form-label" for="remarks">Remarks</label>                                        
+                                        <input cInput id="remarks" formControlName="remarks" placeholder="remarks" autocomplete="remarks" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.remarks.touched) && f.remarks.errors, 'is-valid': f.remarks.touched && !f.remarks.errors }" />
+                                            <div *ngIf="submitted && f['remarks'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['remarks'].errors.required">remarks is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group>
+                                        <label class="col-form-label" for="remarks">downtime</label>                                        
+                                        <input cInput id="downtime" formControlName="downtime" placeholder="downtime" autocomplete="downtime" required
+                                            [ngClass]="{ 'is-invalid': (submitted || f.downtime.touched) && f.downtime.errors, 'is-valid': f.downtime.touched && !f.downtime.errors }" />
+                                            <div *ngIf="submitted && f['downtime'].errors" class="invalid-feedback">
+                                            <div *ngIf="f['downtime'].errors.required">Downtime is required</div>
+                                        </div>
+                                    </c-form-group>
+                                    <c-form-group cRow>
+                                        <label cLabel="col" cCol md="4">Action</label>
+                                        <c-col md="8" col="form-label">
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="action" cInput type="radio"
+                                                    name="action" id="radio1" value="Checkin" checked>
+                                                <label cLabel variant="radio" for="radio1">Checkin</label>
+                                            </c-form-check>
+                                            <c-form-check inline variant="radio" class="mfe-1">
+                                                <input formControlName="action" cInput type="radio"
+                                                    name="action" id="radio2" value="Checkout">
+                                                <label cLabel variant="radio" for="radio2">CheckOut</label>
+                                            </c-form-check>
+                                        </c-col>
+                                    </c-form-group>                                    
+                                   
+                                    <c-form-group>
+                                        <button cButton color="success" class="mfe-1" type="submit"
+                                            [disabled]="botForm.pristine || botForm.invalid"
+                                            [tabindex]="'0'">Submit</button>
+                                        <!-- <button cButton color="success" class="mfe-1" [disabled]="botForm.valid"
+                                            (click)="onValidate()" [tabindex]="'0'">Validate</button> -->
+                                        <button cButton color="danger" type="reset" (click)="onReset()"
+                                            [tabindex]="'0'">Reset</button>
+                                    </c-form-group>
+                                </form>
+                            </c-col>
+                        </c-row>
+                    </c-card-body>
+                </c-card>
+            </c-col>
+        </c-row>
+    </div>
+
+</div>
